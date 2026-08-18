@@ -1,0 +1,31 @@
+header {
+  background-color: #1B2A3B;
+  border-bottom: 3px solid #1E3A5F;
+  border-radius: 20px;
+  padding: 20px 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.logo h1 {
+  color: #239ef5;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.2;
+  padding-left: 2rem;
+}
+
+.logo p {
+  color: #94A3B8;
+  font-size: 0.85rem;
+  padding-left: 2.5rem;
+}
