@@ -24,6 +24,9 @@ function Kanban() {
       try {
         setCarregando(true);
         setErro("");
+
+        await new Promise((resolve) => setTimeout(resolve,2000));
+
         const resposta = await axios.get(URL_API);
         setTarefas(resposta.data);
       } catch (e) {
