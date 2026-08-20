@@ -2,13 +2,14 @@ import Header from "../componentes/Header";
 import ListaTarefas from "../componentes/ListaTarefas";
 import Sidebar from "../componentes/sidebar";
 import ModalTarefa from '../componentes/ModalTarefa'
+import axios from "axios";
 import { useState, useEffect } from "react";
 
 function Kanban() {
   const [tarefas, setTarefas] = useState(() => {
     const tarefasSalvas = localStorage.getItem("tarefas");
     if (!tarefasSalvas) return [];
-    const tarefasConvertidas = JSON.parse(tarefasSalvas);
+    const tarefasConvertidas = axios.get('https://6a85b16c9c451dc67a63fb26.mockapi.io'/tarefas);
     return Array.isArray(tarefasConvertidas) ? tarefasConvertidas : [];
   });
 
