@@ -25,7 +25,7 @@ function Kanban() {
         setCarregando(true);
         setErro("");
 
-        await new Promise((resolve) => setTimeout(resolve,2000));
+        await new Promise((resolve) => setTimeout(resolve,2000))
 
         const resposta = await axios.get(URL_API);
         setTarefas(resposta.data);
@@ -98,7 +98,7 @@ function Kanban() {
         {erro && (
           <p style={{ textAlign: "center", color: "#ef4444" }}>{erro}</p>
         )}
-        {!carregando && !erro(
+        {!carregando && !erro &&(
             <div className="kanban-quadro">
               <div className="kanban-coluna">
                 <div className="kanban-coluna-header">
@@ -200,7 +200,7 @@ function Kanban() {
                   coluna={colunaAtiva}
                 />
               )}
-            </div>,
+            </div>
           )}
       </main>
       <footer>
