@@ -13,7 +13,7 @@ function Kanban() {
   //   return Array.isArray(tarefasConvertidas) ? tarefasConvertidas : [];
   // });
 
-  const URL_API = "https://6a85b16c9c451dc67a63fb26.mockapi.io/";
+  const URL_API = "https://6a85b16c9c451dc67a63fb26.mockapi.io";
 
   const [tarefas, setTarefas] = useState([]);
   const [carregando, setCarregando] = useState(true);
@@ -27,7 +27,7 @@ function Kanban() {
 
         await new Promise((resolve) => setTimeout(resolve,2000))
 
-        const resposta = await axios.get(URL_API);
+        const resposta = await axios.get(URL_API + '/tarefas');
         setTarefas(resposta.data);
       } catch (e) {
         setErro("Erro ao carregar tarefas. Verifique a conexao");
@@ -44,18 +44,32 @@ function Kanban() {
   const [colunaAtiva, setColunaAtiva] = useState("afazer");
 
   function abrirModalCriar(coluna) {
-    setTarefaEditando(null);
+    setTarefaEditando(tarefas);
     setColunaAtiva(coluna);
     setModalAberto(true);
   }
+  function abrirMordalEditar()
 
-  function salvarTarefa(dados) {
-    if (dados.id) {
-      setTarefas(
-        tarefas.map((t) => (t.id === dados.id ? { ...t, ...dados } : t)),
-      );
-    } else {
-      setTarefas([...tarefas, { ...dados, id: Date.now() }]); //ALTERAR ESTE DATE.NOW
+  async function salvarTarefa(dados) {
+    try{
+      //editar tarefa
+      if (dados.id !==undefined) {
+        const {data: tarefaEditada} = await axios.put(URL_API + '/tarefas' + dados.id,
+          {
+            texto: dados.texto,
+            prioridade: dados.prioridade,
+            cidade: dados.cidade,
+            coluna: dados.coluna,
+          }
+        );
+        setTarefas(tarefasAtuais => tarefasAtuais.map(t => t.id === dados.id ? tarefaEditada : t));
+      } else {
+        const {data: novaTarefa} = await axios.post(URL_API + '/tarefas'+ dados,);
+        setTarefas(tarefasAtuais => [...tarefasAtuais, novaTarefa]);
+      }
+    } catch (e){
+      setErro('Erro ao salvar tarefa. Tente novamente.');
+      console.error(e);
     }
   }
 
@@ -63,8 +77,19 @@ function Kanban() {
     localStorage.setItem("tarefas", JSON.stringify(tarefas));
   }, [tarefas]);
 
-  const deletarTarefa = (id) => {
-    setTarefas(tarefas.filter((tarefa) => tarefa.id !== id));
+  async function deletarTarefa(id){
+    const confirmado = window.confirm('Tem certeza que deseja deletar esta tarefa?');
+    if(!confirmado) return;
+    try{
+      await axios.delete(URL_API + '/tarefas/' + id)
+
+      setTarefas(tarefasAtuais =>
+      tarefasAtuais.filter(t => t.id !== id)
+);
+    } catch (e) {
+      setErro('Erro ao deletar tarefa. Tente Novamente.');
+      console.error(e);
+    }
   };
 
   const alternarConcluida = (id) => {
