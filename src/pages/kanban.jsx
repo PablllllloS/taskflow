@@ -48,7 +48,7 @@ function Kanban() {
     setColunaAtiva(coluna);
     setModalAberto(true);
   }
-  function abrirMordalEditar()
+  // function abrirMordalEditar()
 
   async function salvarTarefa(dados) {
     try{
