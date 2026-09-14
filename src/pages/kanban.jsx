@@ -64,7 +64,7 @@ function Kanban() {
         );
         setTarefas(tarefasAtuais => tarefasAtuais.map(t => t.id === dados.id ? tarefaEditada : t));
       } else {
-        const {data: novaTarefa} = await axios.post(URL_API + '/tarefas'+ dados,);
+        const {data: novaTarefa} = await axios.post(URL_API + '/tarefas'+ dados);
         setTarefas(tarefasAtuais => [...tarefasAtuais, novaTarefa]);
       }
     } catch (e){
