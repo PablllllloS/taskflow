@@ -3,6 +3,7 @@ import ListaTarefas from "../componentes/ListaTarefas";
 import Sidebar from "../componentes/sidebar";
 import ModalTarefa from "../componentes/ModalTarefa";
 import axios from "axios";
+import api from "../api";
 import { useState, useEffect } from "react";
 
 function Kanban() {
@@ -26,9 +27,9 @@ function Kanban() {
         setErro("");
 
         await new Promise((resolve) => setTimeout(resolve,2000))
-
-        const resposta = await axios.get(URL_API + '/tarefas');
+        const resposta = await api.get('/tarefas');
         setTarefas(resposta.data);
+
       } catch (e) {
         setErro("Erro ao carregar tarefas. Verifique a conexao");
         console.error(e);

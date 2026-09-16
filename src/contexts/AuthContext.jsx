@@ -16,7 +16,6 @@ export function AuthProvider({children}){
         setUsuario(null);
         setToken(null);
         localStorage.removeItem('token');
-
     }
     return(
         <AuthContext.Provider value={{token, usuario, login, logout}}>

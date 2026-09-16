@@ -26,7 +26,7 @@ function Login() {
       setShake(true);
       setTimeout(()=> setShake(false), 500);
     }
-    if (email && senha) {
+    if (email && senha === "1234") {
       login(); 
       navigate("/"); 
       return;
