@@ -5,11 +5,21 @@ const AuthContext = createContext(null)
 
 //passo 2
 export function AuthProvider({children}){
-    const[logado, setLogado] = useState(false);
-    function login(){setLogado(true);}
-    function logout(){setLogado(false);}
+    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [usuario, setUsuario] = useState(null);
+    function login(dadosUsuario, tokenRecebido){
+        setUsuario(dadosUsuario);
+        setToken(tokenRecebido);
+        localStorage.setItem('token', tokenRecebido); 
+    }
+    function logout(){
+        setUsuario(null);
+        setToken(null);
+        localStorage.removeItem('token');
+
+    }
     return(
-        <AuthContext.Provider value={{logado, login, logout}}>
+        <AuthContext.Provider value={{token, usuario, login, logout}}>
             {children}
         </AuthContext.Provider>
     )

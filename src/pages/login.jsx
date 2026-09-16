@@ -3,24 +3,34 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import Sidebar from "../componentes/sidebar";
+import api from "../services/api";
 import "./login.css";
 
 function Login() {
-  const [usuario, setUsuario] = useState("");
+  const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState("");
-  const [shake, setShake] = useState (false)
+  const [shake, setShake] = useState (false);
   const {login} = useAuth();
   const navigate = useNavigate();
-  function handleLogin() {
-    if (usuario === "admin" && senha === "1234") {
+
+  async function handleLogin() {
+    setErro("");
+    try{
+      const response = await api.post("/login", { email, senha});
+      const {token, usuario} = response.data;
+      login(usuario, token);
+      navigate("/");
+    } catch (error){
+      setErro(error.response?.data?.erro ||"Usuário ou senha incorretos");
+      setShake(true);
+      setTimeout(()=> setShake(false), 500);
+    }
+    if (email && senha) {
       login(); 
       navigate("/"); 
       return;
     }
-    setErro("Usuário ou senha incorretos");
-    setShake(true);
-    setTimeout(()=> setShake(false), 500);
   }
 
   return (
@@ -35,9 +45,9 @@ function Login() {
         <input
           className="login-input"
           type="text"
-          placeholder="Usuário"
-          value={usuario}
-          onChange={(e) => setUsuario(e.target.value)}
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
 
