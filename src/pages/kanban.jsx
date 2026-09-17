@@ -2,19 +2,10 @@ import Header from "../componentes/Header";
 import ListaTarefas from "../componentes/ListaTarefas";
 import Sidebar from "../componentes/sidebar";
 import ModalTarefa from "../componentes/ModalTarefa";
-import axios from "axios";
 import api from "../api";
 import { useState, useEffect } from "react";
 
 function Kanban() {
-  // const [tarefas, setTarefas] = useState(() => {
-  //   const tarefasSalvas = localStorage.getItem("tarefas");
-  //   if (!tarefasSalvas) return [];
-  //   const tarefasConvertidas = JSON.parse(tarefasSalvas);
-  //   return Array.isArray(tarefasConvertidas) ? tarefasConvertidas : [];
-  // });
-
-  const URL_API = "https://6a85b16c9c451dc67a63fb26.mockapi.io";
 
   const [tarefas, setTarefas] = useState([]);
   const [carregando, setCarregando] = useState(true);
@@ -54,18 +45,11 @@ function Kanban() {
   async function salvarTarefa(dados) {
     try{
       //editar tarefa
-      if (dados.id !==undefined) {
-        const {data: tarefaEditada} = await axios.put(URL_API + '/tarefas' + dados.id,
-          {
-            texto: dados.texto,
-            prioridade: dados.prioridade,
-            cidade: dados.cidade,
-            coluna: dados.coluna,
-          }
-        );
+      if (dados.id ===undefined) {
+        const {data: tarefaEditada} = await api.put('/tarefas' + dados.id,dados);
         setTarefas(tarefasAtuais => tarefasAtuais.map(t => t.id === dados.id ? tarefaEditada : t));
       } else {
-        const {data: novaTarefa} = await axios.post(URL_API + '/tarefas'+ dados);
+        const {data: novaTarefa} = await api.post('/tarefas'+ dados);
         setTarefas(tarefasAtuais => [...tarefasAtuais, novaTarefa]);
       }
     } catch (e){

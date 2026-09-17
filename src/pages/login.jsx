@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import Sidebar from "../componentes/sidebar";
-import api from "../services/api";
+import api from "../api";
 import "./login.css";
 
 function Login() {
@@ -17,7 +17,7 @@ function Login() {
   async function handleLogin() {
     setErro("");
     try{
-      const response = await api.post("/login", { email, senha});
+      const response = await api.post("/auth/login", { email, senha});
       const {token, usuario} = response.data;
       login(usuario, token);
       navigate("/");
