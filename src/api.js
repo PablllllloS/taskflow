@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: 'https://taskflow-lbmnujf3x-sky-48d0.vercel.app/' });
+const api = axios.create({ baseURL: import.meta.env.VITE_BASEURL });
 
 api.interceptors.request.use(config => {
     const token = localStorage.getItem('token');
