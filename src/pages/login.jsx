@@ -16,20 +16,15 @@ function Login() {
 
   async function handleLogin() {
     setErro("");
-    try{
-      const response = await api.post("/auth/login", { email, senha});
-      const {token, usuario} = response.data;
+    try {
+      const response = await api.post("/auth/login", { email, senha });
+      const { token, usuario } = response.data;
       login(usuario, token);
       navigate("/");
-    } catch (error){
-      setErro(error.response?.data?.erro ||"Usuário ou senha incorretos");
+    } catch (error) {
+      setErro(error.response?.data?.erro || "Usuário ou senha incorretos");
       setShake(true);
-      setTimeout(()=> setShake(false), 500);
-    }
-    if (email && senha === "1234") {
-      login(); 
-      navigate("/"); 
-      return;
+      setTimeout(() => setShake(false), 500);
     }
   }
 
