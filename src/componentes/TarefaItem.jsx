@@ -8,6 +8,7 @@ function TarefaItem({
   prioridade = "media",
   cidade = "",
   onDeletar,
+  onEditar,
   onConcluir,
   onMover = null,
   colunaAnterior = null,
